@@ -37,7 +37,7 @@ const App = () => {
   useEffect(() => {
     if (localStorage.getItem("Todo") !== null) {
       const newTodos = localStorage.getItem("Todo");
-      setTodos(JSON.parse([...todos, newTodos]));
+      setTodos(JSON.parse([newTodos]));
     }
   }, []);
 
