@@ -1,6 +1,6 @@
 # TODO APP
 
-![demo](https://github.com/krissfrandsen/todo-app/blob/main/public/Screenshot.png?raw=true)
+![demo](https://github.com/krissfrandsen/todo-app/blob/c7586f59aa60336776ff413e475d12b47844fa4b/public/Screenshot.png?raw=true)
 
 ## Getting Started with Create React App
 
