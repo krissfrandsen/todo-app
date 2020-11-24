@@ -1,30 +1,36 @@
 import React, { useState, useEffect, useRef } from "react";
-import { v4 as uuidv4 } from "uuid";
+
 import "./App.css";
+import Form from "./components/Form";
+import TodoList from "./components/TodoList";
 
 const App = () => {
+  //state stuff
   const firstRender = useRef(true);
   const [inputValue, setInputValue] = useState("");
   const [todos, setTodos] = useState([]);
+  const [status, setStatus] = useState("all");
+  const [filteredTodos, setFilteredTodos] = useState([]);
 
-  const addTodo = (e) => {
-    e.preventDefault();
-    if (inputValue.trim() === "") return;
-
-    setTodos([
-      ...todos,
-      {
-        text: inputValue,
-        id: uuidv4()
-      }
-    ]);
-
-    setInputValue("");
+  //Functions
+  const filterHandler = () => {
+    switch (status) {
+      case "completed":
+        setFilteredTodos(todos.filter((todo) => todo.completed === true));
+        break;
+      case "uncompleted":
+        setFilteredTodos(todos.filter((todo) => todo.completed === false));
+        break;
+      default:
+        setFilteredTodos(todos);
+        break;
+    }
   };
 
-  const removeTodo = (id) => {
-    setTodos(todos.filter((todo) => todo.id !== id));
-  };
+  // Use effect
+  useEffect(() => {
+    filterHandler();
+  }, [todos, status]);
 
   useEffect(() => {
     if (firstRender.current) {
@@ -44,16 +50,11 @@ const App = () => {
   return (
     <div className="App">
       <div className="container">
-        <form onSubmit={addTodo}>
-          <input autoFocus type="text" placeholder="Add a task..." value={inputValue} onChange={(e) => setInputValue(e.target.value)} />
-          <button type="submit">Add</button>
-        </form>
-        {todos.map((todo) => (
-          <div key={todo.id} className="todo">
-            <p>{todo.text}</p>
-            <i onClick={() => removeTodo(todo.id)} className="far fa-trash-alt"></i>
-          </div>
-        ))}
+        <header>
+          <h1>My Todo List</h1>
+        </header>
+        <Form todos={todos} setTodos={setTodos} setInputValue={setInputValue} inputValue={inputValue} setStatus={setStatus} />
+        <TodoList todos={todos} setTodos={setTodos} filteredTodos={filteredTodos} />
       </div>
     </div>
   );
